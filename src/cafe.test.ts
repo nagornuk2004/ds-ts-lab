@@ -84,6 +84,10 @@ function cheapest(items: MenuItem[], max?: number) {
   return sorted.slice(0, max);
 }
 
+function getNetPrice(item: MenuItem) {
+  return item.price * (1 - (item.discountPercent ?? 0) * 100);
+}
+
 function firstMatch<T>(
   data: T[],
   criteria: (d: T) => boolean
@@ -249,6 +253,12 @@ describe("Cafe menu functions", () => {
     expect(describeItem(lunchCombo.items[1])).toBe(
       "Chocolate Brownie (dessert) - EUR 6.00"
     );
+  });
+
+  it("should apply the discount when calculating the item price", () => {
+    const discountedPrice = getNetPrice(brownie);
+  
+    expect(discountedPrice).toBe(5.1);
   });
 
 });
